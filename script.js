@@ -5,6 +5,7 @@ const processedInput = input.value
   .toUpperCase();
 input.value = processedInput;
 const output = document.getElementById("output");
+const button = document.getElementsByTagName("button")[0];
 
 function processInput(data, input) {
   const filter = data.filter((el) => el.route === input.value);
@@ -16,8 +17,8 @@ function processInput(data, input) {
       output.appendChild(route);
     }
   } else {
-      const noResult = document.createElement("div");
-      noResult.innerText = `    !`
+    const noResult = document.createElement("div");
+    noResult.innerText = `No such route exists!`;
   }
 }
 
@@ -27,3 +28,5 @@ async function fetchKMB() {
   const data = json.data;
   processInput(data, input);
 }
+
+button.addEventListener("click", fetchKMB);
