@@ -16,7 +16,8 @@ function processInput(data, input) {
       output.appendChild(route);
     }
   } else {
-    const noResult = document.createElement("div");
+      const noResult = document.createElement("div");
+      noResult.innerText = `    !`
   }
 }
 
