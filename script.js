@@ -115,6 +115,7 @@ async function processRoute(event) {
     selectedRoute.service_type
   );
 
+  stopIDArray = [];
   for (let i = 0; i < stopList.length; i++) {
     const stop = document.createElement("button");
     stop.className = "flex-col items-center justify-center";
