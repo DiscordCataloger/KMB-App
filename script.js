@@ -158,12 +158,12 @@ async function fetchETA(stopID, route, service_type) {
 
 async function processETA(event) {
   const clickedButton = event.target;
-  const divElements = clickedButton.querySelectorAll("div");
-  divElements.forEach((div) => {
-    clickedButton.removeChild(div);
-  });
-
-  if (!clickedButton.querySelector("div")) {
+  if (clickedButton.querySelector("div")) {
+    const divElements = clickedButton.querySelectorAll("div");
+    divElements.forEach((div) => {
+      clickedButton.removeChild(div);
+    });
+  } else if (!clickedButton.querySelector("div")) {
     const stopIndex = Array.from(
       outputRoute.getElementsByTagName("button")
     ).indexOf(clickedButton);
@@ -181,26 +181,36 @@ async function processETA(event) {
     console.log(processETAObj);
 
     for (let i = 0; i < processETAFilter.length; i++) {
-      if (processETAFilter[i].eta !== null || processETAFilter.length > 0) {
+      if (processETAFilter[i].eta !== null) {
         const ETADiv = document.createElement("div");
         setInterval(() => {
+          const remainingMinutes = calculateMinutesRemaining(
+            processETAFilter[i].eta
+          );
+          console.log(remainingMinutes);
           const ETAOrgText = processETAFilter[i].eta;
 
           ETADiv.innerText = `${ETAOrgText.split("")
             .slice(11, 13)
-            .join("")}時${ETAOrgText.split("").slice(14, 16).join("")}分`;
+            .join("")}時${ETAOrgText.split("")
+            .slice(14, 16)
+            .join("")}分 (${remainingMinutes}分鐘)`;
         }, 1000);
         clickedButton.appendChild(ETADiv);
-      } else if (processETAFilter.length === 0) {
-        const ETAMissing = document.createElement("div");
-        ETAMissing.innerText =
-          `最後的班次已開出！` || `發生錯誤，不便之處，敬請原諒！`;
-        clickedButton.appendChild(ETAMissing);
       } else {
         const ETAMissing = document.createElement("div");
-        ETAMissing.innerText = `${processETAFilter[i].rmk_tc}`;
+        ETAMissing.innerText =
+          `${processETAFilter[i].rmk_tc}` || `最後的班次已開出！`;
         clickedButton.appendChild(ETAMissing);
       }
     }
   }
+}
+
+function calculateMinutesRemaining(eta) {
+  const now = new Date();
+  const etaTime = new Date(eta);
+  const diff = etaTime - now;
+  const minutesRemaining = Math.floor(diff / (1000 * 60));
+  return minutesRemaining;
 }
