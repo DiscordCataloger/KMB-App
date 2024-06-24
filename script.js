@@ -16,30 +16,31 @@ form.addEventListener("submit", function (event) {
   });
 });
 
-// input.addEventListener("click", function () {
-//   //   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-//   //   <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
-//   // </svg>
-//   input.classList.add = "w-[500px]";
-//   input.classList.remove = "w-96";
+input.addEventListener("focus", function () {
+  input.classList.add("w-[500px]");
+  input.classList.remove("w-96");
 
-//   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  // Create the SVG icon
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "w-6 h-6 text-gray-800");
+  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("width", "24");
+  svg.setAttribute("height", "24");
 
-//   svg.setAttribute("class", "w-6 h-6 text-gray-800");
-//   svg.setAttribute("aria-hidden", "true");
-//   svg.setAttribute("viewBox", "0 0 24 24");
-//   svg.setAttribute("fill", "none");
-//   svg.setAttribute("width", "24");
-//   svg.setAttribute("height", "24");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("stroke", "currentColor");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("stroke-width", "2");
+  path.setAttribute("d", "m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z");
 
-//   const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-//   path.setAttribute("stroke", "currentColor");
-//   path.setAttribute("stroke-linecap", "round");
-//   path.setAttribute("stroke-width", "2");
-//   path.setAttribute("d", "m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z");
-//   svg.appendChild(path);
-//   input.appendChild(svg);
-// });
+  svg.appendChild(path);
+
+  // Append the SVG icon to the input field
+  input.appendChild(svg);
+});
 
 // Function for processing input
 function processInput(data, input) {
