@@ -87,7 +87,7 @@ button.addEventListener("click", fetchKMB);
 
 async function processRoute(event) {
   while (outputRoute.lastChild) {
-    outputRoute.removeChild(outputRoute.lastChild);
+    outputRoute.removeChild(outputRoute.lastChild), 2000;
   }
   const clickedButton = event.target;
   const routeIndex = Array.from(output.getElementsByTagName("button")).indexOf(
@@ -109,6 +109,7 @@ async function processRoute(event) {
       break;
   }
 
+  loading();
   const stopList = await fetchStops(
     selectedRoute.route,
     direction,
@@ -127,6 +128,7 @@ async function processRoute(event) {
     stopIDArray.push(stopList[i].stop);
     stop.addEventListener("click", processETA);
   }
+  removeLoading();
 }
 
 async function fetchStops(route, direction, service_type) {
@@ -213,4 +215,19 @@ function calculateMinutesRemaining(eta) {
   const diff = etaTime - now;
   const minutesRemaining = Math.floor(diff / (1000 * 60));
   return minutesRemaining;
+}
+
+const loading = () => {
+  const loadingImg = document.createElement("img");
+  loadingImg.className = "object-cover w-48 mx-auto m-20";
+  loadingImg.src = "./loading.gif";
+  loadingImg.alt = "";
+  outputRoute.appendChild(loadingImg);
+};
+
+function removeLoading() {
+  const loadingImg = outputRoute.querySelector("img");
+  if (loadingImg) {
+    loadingImg.remove();
+  }
 }
