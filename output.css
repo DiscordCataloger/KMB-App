@@ -554,84 +554,28 @@ video {
   --tw-contain-style:  ;
 }
 
-.absolute {
-  position: absolute;
-}
-
 .relative {
   position: relative;
-}
-
-.-bottom-7 {
-  bottom: -1.75rem;
-}
-
-.right-16 {
-  right: 4rem;
-}
-
-.left-8 {
-  left: 2rem;
-}
-
-.right-10 {
-  right: 2.5rem;
-}
-
-.right-\[10\] {
-  right: 10;
-}
-
-.right-\[100px\] {
-  right: 100px;
-}
-
-.right-\[5s00px\] {
-  right: 5s00px;
-}
-
-.right-\[500px\] {
-  right: 500px;
-}
-
-.right-\[400px\] {
-  right: 400px;
-}
-
-.right-\[450px\] {
-  right: 450px;
-}
-
-.right-\[40px\] {
-  right: 40px;
-}
-
-.right-\[50px\] {
-  right: 50px;
-}
-
-.right-\[60px\] {
-  right: 60px;
-}
-
-.bottom-\[10px\] {
-  bottom: 10px;
-}
-
-.top-\[10px\] {
-  top: 10px;
-}
-
-.top-\[5px\] {
-  top: 5px;
 }
 
 .left-\[5px\] {
   left: 5px;
 }
 
+.right-\[60px\] {
+  right: 60px;
+}
+
+.top-\[5px\] {
+  top: 5px;
+}
+
 .top-\[9px\] {
   top: 9px;
+}
+
+.right-\[5px\] {
+  right: 5px;
 }
 
 .m-20 {
@@ -691,10 +635,6 @@ video {
   height: 50px;
 }
 
-.h-\[20px\] {
-  height: 20px;
-}
-
 .w-40 {
   width: 10rem;
 }
@@ -707,40 +647,24 @@ video {
   width: 1.5rem;
 }
 
+.w-8 {
+  width: 2rem;
+}
+
 .w-96 {
   width: 24rem;
+}
+
+.w-\[450px\] {
+  width: 450px;
 }
 
 .w-auto {
   width: auto;
 }
 
-.w-2 {
-  width: 0.5rem;
-}
-
-.w-\[390px\] {
-  width: 390px;
-}
-
-.w-\[400px\] {
-  width: 400px;
-}
-
-.w-\[420px\] {
-  width: 420px;
-}
-
-.w-4 {
-  width: 1rem;
-}
-
-.w-8 {
-  width: 2rem;
-}
-
-.w-\[450px\] {
-  width: 450px;
+.w-7 {
+  width: 1.75rem;
 }
 
 .flex-row {
@@ -753,10 +677,6 @@ video {
 
 .place-content-center {
   place-content: center;
-}
-
-.content-around {
-  align-content: space-around;
 }
 
 .items-center {
@@ -775,9 +695,9 @@ video {
   border-radius: 0.5rem;
 }
 
-.rounded-r {
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+.rounded-l-lg {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
 
 .rounded-r-lg {
@@ -785,17 +705,12 @@ video {
   border-bottom-right-radius: 0.5rem;
 }
 
-.rounded-l-lg {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
+.border {
+  border-width: 1px;
 }
 
 .border-4 {
   border-width: 4px;
-}
-
-.border {
-  border-width: 1px;
 }
 
 .border-b-4 {
@@ -834,8 +749,8 @@ video {
   padding-right: 0.5rem;
 }
 
-.pl-2 {
-  padding-left: 0.5rem;
+.pl-3 {
+  padding-left: 0.75rem;
 }
 
 .text-gray-800 {

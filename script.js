@@ -7,6 +7,35 @@ let stopIDArray = [];
 let filter = [];
 let selectedRoute = {};
 
+// Create the SVG icon
+const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute(
+  "class",
+  "w-6 h-6 text-gray-800 relative top-[9px] left-[5px]"
+);
+svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+svg.setAttribute("aria-hidden", "true");
+svg.setAttribute("viewBox", "0 0 24 24");
+svg.setAttribute("fill", "none");
+svg.setAttribute("width", "24");
+svg.setAttribute("height", "24");
+
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("stroke", "currentColor");
+path.setAttribute("stroke-linecap", "round");
+path.setAttribute("stroke-width", "2");
+path.setAttribute("d", "m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z");
+
+svg.appendChild(path);
+
+// Append the SVG icon to the input field
+const magGlass = document.createElement("div");
+
+magGlass.className =
+  "border-l-4 border-b-4 border-t-4 rounded-l-lg w-7 h-[50px] border-gray-950";
+
+magGlass.appendChild(svg);
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -17,61 +46,37 @@ form.addEventListener("submit", function (event) {
 });
 
 function handleInputFocus() {
-  // Create the SVG icon
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute(
-    "class",
-    "w-6 h-6 text-gray-800 relative top-[9px] left-[5px]"
-  );
-  svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("fill", "none");
-  svg.setAttribute("width", "24");
-  svg.setAttribute("height", "24");
-
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("stroke", "currentColor");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-width", "2");
-  path.setAttribute("d", "m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z");
-
-  svg.appendChild(path);
-
-  // Append the SVG icon to the input field
-  const magGlass = document.createElement("div");
-  magGlass.className =
-    "border-l-4 border-b-4 border-t-4 rounded-l-lg w-8 h-[50px] border-gray-950";
-  input.classList.remove("border-4", "rounded-lg");
-  input.classList.add("border-r-4", "border-b-4", "border-t-4", "rounded-r-lg");
-  input.classList.remove("w-96");
-  input.classList.add("w-[420px]");
-  form.classList.add("justify-around");
-
-  magGlass.appendChild(svg);
-
   if (!form.contains(magGlass)) {
     form.insertBefore(magGlass, input);
+
+    input.classList.remove("border-4", "rounded-lg", "rounded-l-lg");
+    input.classList.add(
+      "border-r-4",
+      "border-b-4",
+      "border-t-4",
+      "rounded-r-lg"
+    );
+    // Apply focus styling to the input and magGlass, except the left border of the input
+    input.classList.add("focus:outline-none");
+    magGlass.classList.add("focus:outline-none");
   }
+  document.addEventListener("click", handleDocumentClick);
+}
 
-  // Apply focus styling to the input and magGlass, except the left border of the input
-  input.classList.add("focus:outline-none");
-  magGlass.classList.add("focus:outline-none");
-
-  // Remove the event listener from input
-  input.removeEventListener("focus", handleInputFocus);
-
-  // document.addEventListener("click", function (event) {
-  //   if (!form.contains(event.target) && event.target !== input) {
-  //     if (form.contains(magGlass)) {
-  //       form.removeChild(magGlass);
-  //       input.classList.
-  //     }
-  //   }
-  // });
+function handleDocumentClick(event) {
+  // Check if the click target is the input or a descendant of the input
+  if (!input.contains(event.target) && !magGlass.contains(event.target)) {
+    // Click occurred outside the input box
+    // Remove the magGlass element
+    if (form.contains(magGlass)) {
+      form.removeChild(magGlass);
+      input.classList.add("border-4", "rounded-l-lg");
+    }
+  }
 }
 
 input.addEventListener("focus", handleInputFocus);
+// Add a click event listener to the document
 
 // Function for processing input
 function processInput(data, input) {
