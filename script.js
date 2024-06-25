@@ -16,13 +16,13 @@ form.addEventListener("submit", function (event) {
   });
 });
 
-input.addEventListener("focus", function () {
-  input.classList.add("w-[500px]");
-  input.classList.remove("w-96");
-
+function handleInputFocus() {
   // Create the SVG icon
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "w-6 h-6 text-gray-800");
+  svg.setAttribute(
+    "class",
+    "w-6 h-6 text-gray-800 relative top-[9px] left-[5px]"
+  );
   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   svg.setAttribute("aria-hidden", "true");
   svg.setAttribute("viewBox", "0 0 24 24");
@@ -39,8 +39,39 @@ input.addEventListener("focus", function () {
   svg.appendChild(path);
 
   // Append the SVG icon to the input field
-  input.appendChild(svg);
-});
+  const magGlass = document.createElement("div");
+  magGlass.className =
+    "border-l-4 border-b-4 border-t-4 rounded-l-lg w-8 h-[50px] border-gray-950";
+  input.classList.remove("border-4", "rounded-lg");
+  input.classList.add("border-r-4", "border-b-4", "border-t-4", "rounded-r-lg");
+  input.classList.remove("w-96");
+  input.classList.add("w-[420px]");
+  form.classList.add("justify-around");
+
+  magGlass.appendChild(svg);
+
+  if (!form.contains(magGlass)) {
+    form.insertBefore(magGlass, input);
+  }
+
+  // Apply focus styling to the input and magGlass, except the left border of the input
+  input.classList.add("focus:outline-none");
+  magGlass.classList.add("focus:outline-none");
+
+  // Remove the event listener from input
+  input.removeEventListener("focus", handleInputFocus);
+
+  // document.addEventListener("click", function (event) {
+  //   if (!form.contains(event.target) && event.target !== input) {
+  //     if (form.contains(magGlass)) {
+  //       form.removeChild(magGlass);
+  //       input.classList.
+  //     }
+  //   }
+  // });
+}
+
+input.addEventListener("focus", handleInputFocus);
 
 // Function for processing input
 function processInput(data, input) {
