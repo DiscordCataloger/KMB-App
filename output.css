@@ -574,10 +574,6 @@ video {
   top: 9px;
 }
 
-.right-\[5px\] {
-  right: 5px;
-}
-
 .m-20 {
   margin: 5rem;
 }
@@ -599,6 +595,10 @@ video {
 .my-9 {
   margin-top: 2.25rem;
   margin-bottom: 2.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .mr-11 {
@@ -647,8 +647,8 @@ video {
   width: 1.5rem;
 }
 
-.w-8 {
-  width: 2rem;
+.w-7 {
+  width: 1.75rem;
 }
 
 .w-96 {
@@ -661,10 +661,6 @@ video {
 
 .w-auto {
   width: auto;
-}
-
-.w-7 {
-  width: 1.75rem;
 }
 
 .flex-row {
@@ -685,10 +681,6 @@ video {
 
 .justify-center {
   justify-content: center;
-}
-
-.justify-around {
-  justify-content: space-around;
 }
 
 .rounded-lg {
@@ -758,8 +750,41 @@ video {
   color: rgb(31 41 55 / var(--tw-text-opacity));
 }
 
+.bg-blend-darken {
+  background-blend-mode: darken;
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+@keyframes Button {
+  0% {
+    position: relative;
+    left: -50px;
+    opacity: 0;
+  }
+
+  100% {
+    position: relative;
+    left: 0;
+    opacity: 1;
+  }
+}
+
+#routeButton,
+#stopButton {
+  animation: Button 0.6s ease-in;
+}
+
+#stopButton {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.expanded {
+  max-height: 500px;
+  /* Set the desired expanded max-height */
 }
 
 .focus\:outline-none:focus {

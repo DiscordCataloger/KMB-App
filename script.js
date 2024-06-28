@@ -6,6 +6,7 @@ const form = document.getElementsByTagName("form")[0];
 let stopIDArray = [];
 let filter = [];
 let selectedRoute = {};
+let overlay = null
 
 // Create the SVG icon
 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -35,6 +36,7 @@ magGlass.className =
   "border-l-4 border-b-4 border-t-4 rounded-l-lg w-7 h-[50px] border-gray-950";
 
 magGlass.appendChild(svg);
+
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -92,6 +94,7 @@ function processInput(data, input) {
   if (filter.length > 0) {
     for (let i = 0; i < filter.length; i++) {
       const route = document.createElement("button");
+      route.id = "routeButton"
       route.className = "rounded-lg mr-11 px-2 border-zinc-800 border-4";
       route.innerText = `${filter[i].orig_tc} → ${filter[i].dest_tc}`;
       output.appendChild(route);
@@ -122,9 +125,10 @@ async function fetchKMB() {
 // Event listener for submission of input
 button.addEventListener("click", fetchKMB);
 
+// async function for event listener for clicking on an inbound/outbound or a special route
 async function processRoute(event) {
   while (outputRoute.lastChild) {
-    outputRoute.removeChild(outputRoute.lastChild), 2000;
+    outputRoute.removeChild(outputRoute.lastChild);
   }
   const clickedButton = event.target;
   const routeIndex = Array.from(output.getElementsByTagName("button")).indexOf(
@@ -134,8 +138,8 @@ async function processRoute(event) {
   let direction = "";
 
   selectedRoute = filter[routeIndex];
-  console.log(routeIndex);
-  console.log(selectedRoute);
+  // console.log(routeIndex);
+  // console.log(selectedRoute);
 
   switch (selectedRoute.bound) {
     case "I":
@@ -146,7 +150,7 @@ async function processRoute(event) {
       break;
   }
 
-  loading();
+
   const stopList = await fetchStops(
     selectedRoute.route,
     direction,
@@ -156,7 +160,8 @@ async function processRoute(event) {
   stopIDArray = [];
   for (let i = 0; i < stopList.length; i++) {
     const stop = document.createElement("button");
-    stop.className = "flex-col items-center justify-center";
+    stop.id = "stopButton"
+    stop.className = "flex-col items-center justify-center mb-2";
     const stopObj = await fetchStopID(stopList[i].stop);
     // console.log(stopList[i].stop);
     const stopName = stopObj.name_tc;
@@ -165,16 +170,27 @@ async function processRoute(event) {
     stopIDArray.push(stopList[i].stop);
     stop.addEventListener("click", processETA);
   }
-  removeLoading();
 }
 
+
 async function fetchStops(route, direction, service_type) {
-  const res = await fetch(
-    `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${route}/${direction}/${service_type}`
-  );
-  const json = await res.json();
-  const data = json.data;
-  return data;
+  loading(); // Display loading overlay
+
+  try {
+    const res = await fetch(
+      `https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${route}/${direction}/${service_type}`
+    );
+    const json = await res.json();
+    const data = json.data;
+
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay for 2000 milliseconds
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    removeLoading(); // Remove loading overlay
+  }
 }
 
 async function fetchStopID(stopID) {
@@ -211,22 +227,23 @@ async function processETA(event) {
     const route = selectedRoute.route;
     const service_type = selectedRoute.service_type;
     const processETAObj = await fetchETA(stopID, route, service_type);
-    console.log(stopID, route, service_type);
+    // console.log(stopID, route, service_type);
 
     const processETAFilter = processETAObj.filter(
       (el) => el.dir === selectedRoute.bound
     );
-    console.log(selectedRoute.bound);
-    console.log(processETAObj);
+    // console.log(selectedRoute.bound);
+    // console.log(processETAObj);
 
     for (let i = 0; i < processETAFilter.length; i++) {
       if (processETAFilter[i].eta !== null) {
         const ETADiv = document.createElement("div");
+        ETADiv.id = "ETAButton"
         setInterval(() => {
           const remainingMinutes = calculateMinutesRemaining(
             processETAFilter[i].eta
           );
-          console.log(remainingMinutes);
+          // console.log(remainingMinutes);
           const ETAOrgText = processETAFilter[i].eta;
 
           ETADiv.innerText = `${ETAOrgText.split("")
@@ -235,11 +252,14 @@ async function processETA(event) {
             .slice(14, 16)
             .join("")}分 (${remainingMinutes}分鐘)`;
         }, 1000);
+        clickedButton.classList.toggle("expanded");
         clickedButton.appendChild(ETADiv);
+        ETADiv.classList.toggle("show")
       } else {
         const ETAMissing = document.createElement("div");
         ETAMissing.innerText =
           `${processETAFilter[i].rmk_tc}` || `最後的班次已開出！`;
+        clickedButton.classList.toggle("expanded");
         clickedButton.appendChild(ETAMissing);
       }
     }
@@ -254,17 +274,29 @@ function calculateMinutesRemaining(eta) {
   return minutesRemaining;
 }
 
-const loading = () => {
+
+function loading() {
+  if (overlay) {
+    return; // Return early if the loading overlay is already displayed
+  }
+
+  overlay = document.createElement("div");
+  overlay.className = "bg-blend-darken";
+  overlay.id = "overlay";
+  document.body.appendChild(overlay);
+
   const loadingImg = document.createElement("img");
+  loadingImg.id = "loadingImg";
   loadingImg.className = "object-cover w-48 mx-auto m-20";
   loadingImg.src = "./loading.gif";
   loadingImg.alt = "";
-  outputRoute.appendChild(loadingImg);
-};
+
+  overlay.appendChild(loadingImg);
+}
 
 function removeLoading() {
-  const loadingImg = outputRoute.querySelector("img");
-  if (loadingImg) {
-    loadingImg.remove();
+  if (overlay) {
+    overlay.parentNode.removeChild(overlay);
+    overlay = null; // Reset the overlay variable
   }
 }
