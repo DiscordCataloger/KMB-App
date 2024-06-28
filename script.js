@@ -6,7 +6,7 @@ const form = document.getElementsByTagName("form")[0];
 let stopIDArray = [];
 let filter = [];
 let selectedRoute = {};
-let overlay = null
+let overlay = null;
 
 // Create the SVG icon
 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -36,7 +36,6 @@ magGlass.className =
   "border-l-4 border-b-4 border-t-4 rounded-l-lg w-7 h-[50px] border-gray-950";
 
 magGlass.appendChild(svg);
-
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -94,7 +93,7 @@ function processInput(data, input) {
   if (filter.length > 0) {
     for (let i = 0; i < filter.length; i++) {
       const route = document.createElement("button");
-      route.id = "routeButton"
+      route.id = "routeButton";
       route.className = "rounded-lg mr-11 px-2 border-zinc-800 border-4";
       route.innerText = `${filter[i].orig_tc} → ${filter[i].dest_tc}`;
       output.appendChild(route);
@@ -150,7 +149,6 @@ async function processRoute(event) {
       break;
   }
 
-
   const stopList = await fetchStops(
     selectedRoute.route,
     direction,
@@ -160,10 +158,12 @@ async function processRoute(event) {
   stopIDArray = [];
   for (let i = 0; i < stopList.length; i++) {
     const stop = document.createElement("button");
-    stop.id = "stopButton"
-    stop.className = "flex-col items-center justify-center mb-2";
+    stop.id = "stopButton";
+    stop.className =
+      "flex flex-col items-center justify-center border-red-500 border-4 border-b-0 w-[500px]";
     const stopObj = await fetchStopID(stopList[i].stop);
     // console.log(stopList[i].stop);
+
     const stopName = stopObj.name_tc;
     stop.innerText = stopName;
     outputRoute.appendChild(stop);
@@ -171,7 +171,6 @@ async function processRoute(event) {
     stop.addEventListener("click", processETA);
   }
 }
-
 
 async function fetchStops(route, direction, service_type) {
   loading(); // Display loading overlay
@@ -238,7 +237,7 @@ async function processETA(event) {
     for (let i = 0; i < processETAFilter.length; i++) {
       if (processETAFilter[i].eta !== null) {
         const ETADiv = document.createElement("div");
-        ETADiv.id = "ETAButton"
+        ETADiv.id = "ETAButton";
         setInterval(() => {
           const remainingMinutes = calculateMinutesRemaining(
             processETAFilter[i].eta
@@ -252,7 +251,9 @@ async function processETA(event) {
             .slice(14, 16)
             .join("")}分 (${remainingMinutes}分鐘)`;
         }, 1000);
-        clickedButton.classList.toggle("expanded");
+        setTimeout(() => {
+          clickedButton.classList.toggle("expanded");
+        }, 2000);
         clickedButton.appendChild(ETADiv);
       } else {
         const ETAMissing = document.createElement("div");
@@ -272,7 +273,6 @@ function calculateMinutesRemaining(eta) {
   const minutesRemaining = Math.floor(diff / (1000 * 60));
   return minutesRemaining;
 }
-
 
 function loading() {
   if (overlay) {

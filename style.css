@@ -17,10 +17,10 @@
 
 #routeButton,
 #stopButton {
-    animation: Button 0.6s ease-in;
+  animation: Button 0.6s ease-in;
 }
 
-#stopButton { 
+#stopButton {
   overflow: hidden;
   transition: max-height 0.3s ease;
 }

@@ -11,21 +11,22 @@
 <body>
 
     <!-- Logos -->
-    <div class="flex flex-row w-auto justify-center place-content-center">
+    <div class="flex mx-auto w-auto justify-center place-content-center">
         <img class="w-40 mr-16 my-5" src=" ./KMB_logo.png" alt="">
         <img src="./App_logo.png" class="size-[75px] my-9" alt="">
     </div>
 
     <!-- Input Field -->
-    <form action="" class="m-auto w-[450px] flex flex-row justify-center" method="GET">
-        <input type="search" class="rounded-lg h-[50px] w-96 border-4 border-gray-950 pl-3" placeholder="請輸入巴士路線搜尋" />
+    <form action="" class="mx-auto flex justify-center" method="GET">
+        <input type="search" class="rounded-lg h-[50px] w-[600px] border-4 border-gray-950 pl-3"
+            placeholder="請輸入巴士路線搜尋" />
         <button class="relative right-[60px] top-[5px]"><img src="bus_logo.png" class="size-[55px]" alt=""></button>
     </form>
 
     <!-- Routes & Stop ETA -->
     <div id="output" class="mt-6 flex flex-row justify-center items-center">
     </div>
-    <div id="outputRoute" class="mt-6 flex flex-col justify-center items-center"></div>
+    <div id="outputRoute" class="mt-6 mx-auto w-3/5 flex flex-col justify-center items-center"></div>
     <script src="./script.js"></script>
 </body>
 
