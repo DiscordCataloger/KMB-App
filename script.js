@@ -254,7 +254,6 @@ async function processETA(event) {
         }, 1000);
         clickedButton.classList.toggle("expanded");
         clickedButton.appendChild(ETADiv);
-        ETADiv.classList.toggle("show")
       } else {
         const ETAMissing = document.createElement("div");
         ETAMissing.innerText =
